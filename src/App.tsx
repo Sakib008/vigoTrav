@@ -1,34 +1,27 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useDispatch, useSelector } from "react-redux";
+import { setDay, clearDay } from "./store/Slices/EventSlice";
+import type { RootState, AppDispatch } from "./store/store";
 
 function App() {
-  const [count, setCount] = useState(0)
+
+const dispatch = useDispatch<AppDispatch>();
+const day = useSelector((state: RootState) => state.itinerary.day);
+
+// Update the day:
+const daySet = ()=> dispatch(setDay({id: 1, title: "My Day", notes: "My Notes"}));
+
+// Clear the day:
+const dayClear = () => dispatch(clearDay());
+
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <div className="App flex flex-col items-center justify-center gap-2">
+      This is working as Store
+      <h1>{day.title}</h1>
+      <p>{day.notes}</p>
+      <button onClick={daySet}>Set Day</button>
+      <button onClick={dayClear}>Clear Day</button>
+    </div>
   )
 }
 
